@@ -11,7 +11,6 @@ public class Employee {
         iD=0;
         cellphoneN=0;
     }
-    //
     Employee(String firstName,String surname,String position,int iD,int cellphoneN){
         this.firstName=firstName;
         this.surname=surname;

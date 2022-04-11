@@ -8,9 +8,12 @@ public class Order{
 
     //constructors
     Order(){
+        //from book//
         booc.setName(bName);
         booc.setType(bType);
         booc.setCountID(bCountiD);
         booc.setCountOfBooks(countOfBooks);
+        //from newspaper//
+
     };
 }

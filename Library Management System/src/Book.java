@@ -7,7 +7,7 @@ public class Book {
     private int countOfBooks = 0;
     private String names[] = new String[this.countOfBooks+1];
     private String types[] = new String[this.countOfBooks+1];
-
+//constructors
     public Book(String name,String type){
         this.name = name;
         this.type = type;
@@ -17,7 +17,7 @@ public class Book {
         name="";
         type="";
     }
-
+//getters
     public String getType() {
         return type;
     }
@@ -36,7 +36,7 @@ public class Book {
     public String[] getTypes() {
         return types;
     }
-    
+    //setters
     public void setCountID(int countID) {
         this.countID = countID;
     }
