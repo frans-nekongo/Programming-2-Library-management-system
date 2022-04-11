@@ -19,8 +19,15 @@ public class Employee {
         this.cellphoneN=cellphoneN;
     }
     //methods
-    public void ordering(){}
-    public void login(){}
+    public void ordering(){
+        //name book/np
+        //if book count(book) is zero ,then we need to order
+        //
+    }
+    public void login(){
+        //userName and password//
+        //
+    }
     public void borrowFinal(){}
 
     //getters
