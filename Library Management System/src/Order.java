@@ -23,10 +23,21 @@ public class Order{
     };
     //methods
     public void orderingBook(){
-        System.out.println("how many books do you want to enter");
-        numBooksToBeOrderred=keyboard.nextInt();
-
-
+        System.out.println("enter 1 if you odering an already existing book"+'\n'+"2.for a new entry");
+        int sw1=keyboard.nextInt();
+        switch (sw1){
+            case 1://already existing
+                System.out.println("enter bookName");
+                ///adding process here
+                System.out.println("how many books");
+                numBooksToBeOrderred=keyboard.nextInt();
+                break;
+            case 2://new books
+                System.out.println();
+                break;
+            default:
+                System.out.println("wrong entry");
+        }
     };
     public void orderingNewspaper(){};
 
