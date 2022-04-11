@@ -13,6 +13,10 @@ public class Book {
         this.type = type;
     }
 
+    public Book() {
+        
+    }
+
     public String getType() {
         return type;
     }
