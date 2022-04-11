@@ -14,7 +14,8 @@ public class Book {
     }
 
     public Book() {
-        
+        name="";
+        type="";
     }
 
     public String getType() {
