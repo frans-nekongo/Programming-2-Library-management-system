@@ -61,6 +61,8 @@ public class Customers {
     int password = 2001;
     String UserName = "King";
 
+    //Method allows new customers to register
+
     public static void memberRegister() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Please Register");
@@ -72,6 +74,7 @@ public class Customers {
 
         System.out.println(" Welcome your are now a member ");
     }
+    //Login method
 
     public static void Login() {
 
@@ -89,6 +92,8 @@ public class Customers {
 
         }
     }
+
+    //Interface implements the borrow book function
 
     public static void borrowingBook() {
 
