@@ -23,7 +23,8 @@ public class Order{
     };
     //methods
     public void orderingBook(){
-        System.out.println("enter 1 if you odering an already existing book"+'\n'+"2.for a new entry");
+        System.out.println("enter 1 if you ordering an already existing book"
+                     +'\n'+"2.for a new entry");
         int sw1=keyboard.nextInt();
         switch (sw1){
             case 1://already existing
