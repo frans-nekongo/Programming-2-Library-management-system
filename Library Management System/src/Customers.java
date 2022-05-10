@@ -1,14 +1,29 @@
 
-import java.util.Dictionary;
 import java.util.Scanner;
-import java.util.stream.Stream;
 
 public class Customers {
 
     String FirstName;
-    String Surname;
+    String username;
+    String lastName;
     int ID;
     int CellphoneNumber;
+
+    Customers(){
+
+    }
+    //objects
+    Scanner keyboard = new Scanner(System.in);
+
+    public Customers(String firstName, String username, String lastName, int ID, int cellphoneNumber, int password, String userName) {
+        FirstName = firstName;
+        this.username = username;
+        this.lastName = lastName;
+        this.ID = ID;
+        CellphoneNumber = cellphoneNumber;
+        this.password = password;
+        UserName = userName;
+    }
 
     public String getFirstName() {
         return FirstName;
@@ -18,12 +33,20 @@ public class Customers {
         FirstName = firstName;
     }
 
-    public String getSurname() {
-        return Surname;
+    public String getUsername() {
+        return username;
     }
 
-    public void setSurname(String surname) {
-        Surname = surname;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public int getID() {
@@ -64,12 +87,11 @@ public class Customers {
     //Method allows new customers to register
 
     public static void memberRegister() {
-        Scanner scan = new Scanner(System.in);
         System.out.println("Please Register");
         System.out.println("Please enter a Username");
-        String Username = scan.nextLine();
+        //String Username = .nextLine();
         System.out.println("Enter a password");
-        int password = scan.nextInt();
+       // int password = scan.nextInt();
 
 
         System.out.println(" Welcome your are now a member ");

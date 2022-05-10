@@ -1,7 +1,7 @@
 import java.sql.*;
 import java.util.Scanner;
 
-public class Library_System implements EmployeeDao {
+public class Library_System implements Dao {
     //employee v
     private String fname, lname,posE,cellN;
     private CallableStatement callS;
@@ -16,6 +16,7 @@ public class Library_System implements EmployeeDao {
     public static void main(String[] args) {
         Library_System lib = new Library_System();
         Order ord = new Order();
+        Employee emp=new Employee();
 
         lib.getConnect();
 
@@ -26,9 +27,9 @@ public class Library_System implements EmployeeDao {
          //   case 1:
 
         try {
-            //lib.getAllEmployee();
-            //lib.deleteEmployee();
-            //lib.insertEmployee();
+            //emp.getAllEmployee();
+            //emp.deleteEmployee();
+            //emp.insertEmployee();
             //lib.getAllBooks();
             //lib.deleteBook();
             //lib.insertBook();
@@ -152,158 +153,4 @@ public class Library_System implements EmployeeDao {
         }
         return con;
     }
-    //employee
-    @Override
-    public void getAllEmployee() throws SQLException {
-        callS = this.con.prepareCall("Call selectE()");
-        ResultSet rS = callS.executeQuery();
-        while (rS.next()) {
-            fname = rS.getString("firstName");
-            idEmployee = rS.getInt("idEmployee");
-            lname = rS.getString("lastName");
-            cellN=rS.getString("cellphoneN");
-            posE=rS.getString("positionE");
-            System.out.println(idEmployee + " " + fname + " " + lname+ " " + cellN + " " + posE);
-        }
-    }
-
-    @Override
-    public void deleteEmployee() throws SQLException {
-        getAllEmployee();
-        System.out.println("which name would you want to delete enter employee id");
-        int answer = keyboard.nextInt();
-        callS = this.con.prepareCall("call deleteE(?)");
-        callS.setInt(1, answer);
-        callS.execute();
-        System.out.println("delete complete");
-        getAllEmployee();
-    }
-
-    @Override
-    public void insertEmployee() throws SQLException {
-        getAllEmployee();
-        String idEmployee = keyboard.next();
-        String fname = keyboard.next();
-        String lname = keyboard.next();
-        String cellN=keyboard.next();
-        String posE=keyboard.next();
-        try {
-            CallableStatement statmnt = con.prepareCall("{call insertE(?,?,?,?,?)}");
-            statmnt.setString(1, idEmployee);
-            statmnt.setString(2, fname);
-            statmnt.setString(3, lname);
-            statmnt.setString(4,cellN);
-            statmnt.setString(5,posE);
-            ResultSet rs = statmnt.executeQuery();
-            System.out.println("Your data has been inserted into table.");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        getAllEmployee();
-    }
-
-    @Override
-    public void updateEmployee() throws SQLException {
-        getAllEmployee();
-        System.out.println("enter data in the folowing format"
-                +'\n'+"employee id"
-                +'\n'+"cellphone#"
-                +'\n'+"position");
-        int idE= keyboard.nextInt();
-        String cellN = keyboard.next();
-        String posE = keyboard.next();
-
-        try {
-            CallableStatement statmnt = con.prepareCall("{call updateE_pos_cellN(?,?,?)}");
-            statmnt.setInt(1,idE);
-            statmnt.setString(2,posE);
-            statmnt.setString(3,cellN);
-
-            ResultSet rs = statmnt.executeQuery();
-            System.out.println("Your data has been inserted into table.");
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-        getAllEmployee();
-    }
-    //book
-
-    @Override
-    public void getAllBooks() throws SQLException {
-        callS = this.con.prepareCall("Call selectB()");
-        ResultSet rS = callS.executeQuery();
-        System.out.println("| Book ID | Book Name | BookType | countID | countOfBooks |");
-        while (rS.next()) {
-            idBook = rS.getInt("idBook");
-            bookName=rS.getString("BookName");
-            bookType=rS.getString("BookType");
-            countID=rS.getInt("countID");
-            countOfBooks=rS.getInt("CountOfBooks");
-            System.out.println("| "+idBook+" | "+bookName+" | "+bookType+" | "+countID+" | "+countOfBooks+" |");
-        }
-    }
-
-    @Override
-    public void deleteBook() throws SQLException {
-        getAllBooks();
-        System.out.println("which book would you want to delete enter book id");
-        int answer = keyboard.nextInt();
-        callS = this.con.prepareCall("call deleteB(?)");
-        callS.setInt(1, answer);
-        callS.execute();
-        System.out.println("delete complete");
-        getAllBooks();
-    }
-
-    @Override
-    public void insertBook_bookCount() throws SQLException {
-        getAllBooks();
-        System.out.println("enter data in the folowing format"
-                        +'\n'+"book id"
-                        +'\n'+"book name"+'\n'
-                        +"book type"+'\n'
-                        +"count id"+'\n'
-                        +"count of books");
-        int idBook = keyboard.nextInt();
-        String bookName =keyboard.next();
-        String bookType = keyboard.next();
-        int countID = keyboard.nextInt();
-        int countOfBooks = keyboard.nextInt();
-        try {
-            CallableStatement statmnt = con.prepareCall("{call insertB(?,?,?,?,?)}");
-            statmnt.setInt(1,idBook);
-            statmnt.setString(2, bookName);
-            statmnt.setString(3, bookType);
-            statmnt.setInt(4, countID);
-            statmnt.setInt(5,countOfBooks);
-            ResultSet rs = statmnt.executeQuery();
-            System.out.println("Your data has been inserted into table.");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        getAllBooks();
-    }
-
-    @Override
-    public void updateBook() throws SQLException {
-        getAllBooks();
-        System.out.println("enter data in the folowing format"
-                +'\n'+"book id"
-                +'\n'+"count of books");
-        int Bid= keyboard.nextInt();
-        int Bcount= keyboard.nextInt();
-
-        try {
-            CallableStatement statmnt = con.prepareCall("{call updateB_bc(?,?)}");
-            statmnt.setInt(1,Bid);
-            statmnt.setInt(2,Bcount);
-
-            ResultSet rs = statmnt.executeQuery();
-            System.out.println("Your data has been inserted into table.");
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-        getAllBooks();
-    }
-
 }
