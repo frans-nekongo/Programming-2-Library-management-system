@@ -29,6 +29,7 @@ public class Library_System implements Dao {
          //   case 1:
 
         try {
+            cust.CustomerStart();
             //cust.CustomerStart();
             //cust.insertC();
             //cust.getAllCustomer();
