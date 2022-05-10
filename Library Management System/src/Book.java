@@ -1,4 +1,5 @@
 import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -8,7 +9,10 @@ public class Book {
     private int idBook,countID, countOfBooks;
 //objects
     Scanner keyboard= new Scanner(System.in);
-Library_System lib = new Library_System();
+    Library_System lib = new Library_System();
+
+    private CallableStatement callS;
+    Connection con =setCon(lib.getConnect());
 //constructors
     public Book(){
     }
@@ -21,6 +25,15 @@ Library_System lib = new Library_System();
     }
 
 //getters
+
+    public Connection getCon() {
+        return con;
+    }
+
+    public Connection setCon(Connection con) {
+        this.con = con;
+        return con;
+    }
 
     public String getBookName() {
         return bookName;
@@ -64,10 +77,10 @@ Library_System lib = new Library_System();
         this.countOfBooks = countOfBooks;
     }
     // methods
-    /*public void bookCount(){}
+    public void bookCount(){}
     public void getAllBooks() throws SQLException {
-        lib.callS = this.lib.con.prepareCall("Call selectB()");
-        ResultSet rS = lib.callS.executeQuery();
+        callS = this.con.prepareCall("Call selectB()");
+        ResultSet rS = callS.executeQuery();
         System.out.println("| Book ID | Book Name | BookType | countID | countOfBooks |");
         while (rS.next()) {
             idBook = rS.getInt("idBook");
@@ -82,9 +95,9 @@ Library_System lib = new Library_System();
         getAllBooks();
         System.out.println("which book would you want to delete enter book id");
         int answer = keyboard.nextInt();
-        lib.callS = this.lib.con.prepareCall("call deleteB(?)");
-        lib.callS.setInt(1, answer);
-        lib.callS.execute();
+        callS = this.con.prepareCall("call deleteB(?)");
+        callS.setInt(1, answer);
+        callS.execute();
         System.out.println("delete complete");
         getAllBooks();
     }
@@ -96,13 +109,13 @@ Library_System lib = new Library_System();
                 +"book type"+'\n'
                 +"count id"+'\n'
                 +"count of books");
-        int idBook = keyboard.nextInt();
-        String bookName =keyboard.next();
-        String bookType = keyboard.next();
-        int countID = keyboard.nextInt();
-        int countOfBooks = keyboard.nextInt();
+        idBook = keyboard.nextInt();
+        bookName =keyboard.next();
+        bookType = keyboard.next();
+        countID = keyboard.nextInt();
+        countOfBooks = keyboard.nextInt();
         try {
-            CallableStatement statmnt = lib.con.prepareCall("{call insertB(?,?,?,?,?)}");
+            CallableStatement statmnt = con.prepareCall("{call insertB(?,?,?,?,?)}");
             statmnt.setInt(1,idBook);
             statmnt.setString(2, bookName);
             statmnt.setString(3, bookType);
@@ -124,7 +137,7 @@ Library_System lib = new Library_System();
         int Bcount= keyboard.nextInt();
 
         try {
-            CallableStatement statmnt = lib.con.prepareCall("{call updateB_bc(?,?)}");
+            CallableStatement statmnt = con.prepareCall("{call updateB_bc(?,?)}");
             statmnt.setInt(1,Bid);
             statmnt.setInt(2,Bcount);
 
@@ -143,13 +156,13 @@ Library_System lib = new Library_System();
                 +"book type"+'\n'
                 +"count id"+'\n'
                 +"count of books");
-        int idBook = keyboard.nextInt();
-        String bookName =keyboard.next();
-        String bookType = keyboard.next();
-        int countID = keyboard.nextInt();
-        int countOfBooks = keyboard.nextInt();
+         idBook = keyboard.nextInt();
+         bookName =keyboard.next();
+         bookType = keyboard.next();
+         countID = keyboard.nextInt();
+         countOfBooks = keyboard.nextInt();
         try {
-            CallableStatement statmnt = lib.con.prepareCall("{call insertB(?,?,?,?,?)}");
+            CallableStatement statmnt = con.prepareCall("{call insertB(?,?,?,?,?)}");
             statmnt.setInt(1,idBook);
             statmnt.setString(2, bookName);
             statmnt.setString(3, bookType);
@@ -162,5 +175,4 @@ Library_System lib = new Library_System();
         }
         getAllBooks();
     }
-*/
 }
