@@ -13,7 +13,7 @@ public class Library_System implements Dao {
     Connection con;
     Scanner keyboard = new Scanner(System.in);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         Scanner keyboard = new Scanner(System.in);
         Library_System lib = new Library_System();
         Order ord = new Order();
@@ -30,33 +30,11 @@ public class Library_System implements Dao {
                             +'\n'+"2.employee");
         int answr3=keyboard.nextInt();
         switch (answr3){
-            case 1:try {
-                cust.CustomerStart();
-            }catch (SQLException e){
-                e.printStackTrace();
-            }
-            break;
-            case 2:;
-            break;
+            case 1: cust.CustomerStart();
+                break;
+            case 2:emp.login();
+                break;
         }
-        /*try {
-            //cust.CustomerStart();
-            //cust.CustomerStart();
-            //cust.insertC();
-            //cust.getAllCustomer();
-            //cust.deleteC();
-            //cust.updateC();
-            //emp.getAllEmployee();
-            //emp.deleteEmployee();
-            //emp.insertEmployee();
-            //b8k.getAllBooks();
-            //lib.deleteBook();
-            //lib.insertBook();
-            //lib.updateBook();
-            //lib.updateEmployee();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }*/
     }
     @Override
     public Connection getConnect() {

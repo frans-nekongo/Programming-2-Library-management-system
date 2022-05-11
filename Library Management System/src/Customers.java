@@ -1,12 +1,16 @@
 
+import com.mysql.cj.x.protobuf.MysqlxCursor;
+
 import java.sql.*;
 import java.util.Scanner;
 
 public class Customers {
 
     private String firstName,lastName,username,password_C, cellphoneNumber;
-    private int ID,rowsAffected;
+    private int ID;
+    private int rowsAffected;
     //objects
+    Book b8k=new Book();
     Scanner keyboard = new Scanner(System.in);
     Library_System lib=new Library_System();
     //Customers cust=new Customers();
@@ -114,8 +118,7 @@ public class Customers {
     int password = 2001;
     String UserName = "King";
 
-    //Method allows new customers to register
-
+    //Method for customer actions that can perform
     public void CustomerStart() throws SQLException {
         System.out.println("1.login"+'\n'+"2.register");
         int answer=keyboard.nextInt();
@@ -136,28 +139,41 @@ public class Customers {
         username= keyboard.next();
         System.out.println("password");
         password_C= keyboard.next();
+
+        int count = 0;
+
         try {
             callS = this.con.prepareCall("Call selectC_usrname_pass(?,?)");
             callS.setString(1,username);
             callS.setString(2,password_C);
             ResultSet rS = callS.executeQuery();
 
-            rowsAffected = callS.getUpdateCount();
+            while (rS.next()) {
+                ++count;
+                // Get data from the current row and use it
+                }if (count > 0)
+                {
+                    System.out.println("user logged in"
+                            +'\n'+"what would you like to do"
+                            +'\n'+"1.search for a specific book"
+                            +'\n'+"2.browse all available books"
+                            +'\n'+"3.borrow a book");
+                    int answr4= keyboard.nextInt();
+                    switch (answr4){
+                        case 1:b8k.getSpecificBook();
+                            break;
+                        case 2:b8k.getAllBooks();
+                            break;
+                        case 3:borrowingBook();
+                            break;
+                    }
+                }
         }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-        if ()
+            System.out.println(e.getMessage());}
     }
-    public static void borrowingBook() {
-
+    public void borrowingBook() throws SQLException {
         System.out.println("Please choose the book to borrow");
-
-        String[] x = new String[3];
-        System.out.println(x);
-
-
-
-
+        b8k.getAllBooks();
     }
     public  void insertC()throws SQLException{
         System.out.println("enter data in the following way idCustomer,Fname,Lname,cllN,username,password ");
@@ -176,7 +192,7 @@ public class Customers {
             statmnt.setString(5, UserName);
             statmnt.setString(6,password_C);
             ResultSet rs = statmnt.executeQuery();
-            System.out.println("Your data has been inserted into table.");
+            System.out.println("Your data has been inserted into LBMS.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

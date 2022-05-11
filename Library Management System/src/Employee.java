@@ -32,22 +32,6 @@ public class Employee implements Dao {
         this.idEmployee = idEmployee;
         this.cellN = cellN;
     }
-
-    //methods
-    public void ordering() {
-        //name book/np
-        //if book count(book) is zero ,then we need to order
-        //
-    }
-
-    public void login() {
-        //userName and password//
-        //
-    }
-
-    public void borrowFinal() {
-    }
-
     //getters
 
     public Connection getCon() {
@@ -179,5 +163,27 @@ public class Employee implements Dao {
             System.out.println(e.getMessage());
         }
         getAllEmployee();
+    }
+
+    public void ordering() {
+        //name book/np
+        //if book count(book) is zero ,then we need to order
+        //
+    }
+
+    public void login()throws SQLException {
+        System.out.println("insert username"
+        +'\n'+"insert employee master code");
+        int masterCode=1001,
+        answr5= keyboard.nextInt();
+
+        if (answr5==masterCode){
+            System.out.println("welcome");
+        }else {System.out.println("wrong code ACCESS DENIED");
+        }
+
+    }
+
+    public void borrowFinal() {
     }
 }
