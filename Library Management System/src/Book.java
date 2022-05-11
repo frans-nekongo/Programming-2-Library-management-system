@@ -91,6 +91,22 @@ public class Book {
             System.out.println("| "+idBook+" | "+bookName+" | "+bookType+" | "+countID+" | "+countOfBooks+" |");
         }
     }
+    public void getSpecificBook()throws SQLException{
+        System.out.println("enter book name");
+        bookName=keyboard.next();
+        callS = this.con.prepareCall("Call selectB_name(?)");
+        callS.setString(1,bookName);
+        ResultSet rS = callS.executeQuery();
+        System.out.println("| Book ID | Book Name | BookType | countID | countOfBooks |");
+        while (rS.next()) {
+            idBook = rS.getInt("idBook");
+            bookName=rS.getString("BookName");
+            bookType=rS.getString("BookType");
+            countID=rS.getInt("countID");
+            countOfBooks=rS.getInt("CountOfBooks");
+            System.out.println("| "+idBook+" | "+bookName+" | "+bookType+" | "+countID+" | "+countOfBooks+" |");
+        }
+    }
     public void deleteBook() throws SQLException {
         getAllBooks();
         System.out.println("which book would you want to delete enter book id");

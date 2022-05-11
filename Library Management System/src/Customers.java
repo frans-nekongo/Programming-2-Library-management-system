@@ -5,11 +5,11 @@ import java.util.Scanner;
 public class Customers {
 
     private String firstName,lastName,username,password_C, cellphoneNumber;
-    private int ID;
+    private int ID,rowsAffected;
     //objects
     Scanner keyboard = new Scanner(System.in);
     Library_System lib=new Library_System();
-    Customers cust=new Customers();
+    //Customers cust=new Customers();
 
     //connectoin
     Connection con=setCon(lib.getConnect());
@@ -20,13 +20,22 @@ public class Customers {
     Customers(){
 
     }
-    public Customers(String firstName, String lastName, String username, String password_C, String cellphoneNumber, int ID) {
+    public Customers(int rowsAffected,String firstName, String lastName, String username, String password_C, String cellphoneNumber, int ID) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password_C = password_C;
         this.cellphoneNumber = cellphoneNumber;
         this.ID = ID;
+        this.rowsAffected=rowsAffected;
+    }
+
+    public int getRowsAffected() {
+        return rowsAffected;
+    }
+
+    public void setRowsAffected(int rowsAffected) {
+        this.rowsAffected = rowsAffected;
     }
 
     public String getFirstName() {
@@ -122,19 +131,22 @@ public class Customers {
         insertC();
         System.out.println(" account successfully created ");
     }
-    public void Login() {
+    public void Login() throws SQLException {
         System.out.println("Enter your login details"+'\n'+"username");
         username= keyboard.next();
         System.out.println("password");
         password_C= keyboard.next();
-
         try {
-            Statement stmnt=con.createStatement();
-            ResultSet rs = null;
-            String password=rs.getString("password_c");
+            callS = this.con.prepareCall("Call selectC_usrname_pass(?,?)");
+            callS.setString(1,username);
+            callS.setString(2,password_C);
+            ResultSet rS = callS.executeQuery();
+
+            rowsAffected = callS.getUpdateCount();
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
+        if ()
     }
     public static void borrowingBook() {
 
