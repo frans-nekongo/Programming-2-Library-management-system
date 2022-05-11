@@ -14,6 +14,7 @@ public class Library_System implements Dao {
     Scanner keyboard = new Scanner(System.in);
 
     public static void main(String[] args) {
+        Scanner keyboard = new Scanner(System.in);
         Library_System lib = new Library_System();
         Order ord = new Order();
         Employee emp=new Employee();
@@ -24,12 +25,22 @@ public class Library_System implements Dao {
 
 
         //begin
-        System.out.println("welcome ");
-       // switch (lib.swi){
-         //   case 1:
-
-        try {
-            cust.CustomerStart();
+        System.out.println("welcome customer/employee"
+                            +'\n'+"1.customer"
+                            +'\n'+"2.employee");
+        int answr3=keyboard.nextInt();
+        switch (answr3){
+            case 1:try {
+                cust.CustomerStart();
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+            break;
+            case 2:;
+            break;
+        }
+        /*try {
+            //cust.CustomerStart();
             //cust.CustomerStart();
             //cust.insertC();
             //cust.getAllCustomer();
@@ -45,7 +56,7 @@ public class Library_System implements Dao {
             //lib.updateEmployee();
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        }*/
     }
     @Override
     public Connection getConnect() {
