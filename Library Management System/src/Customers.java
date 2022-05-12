@@ -174,6 +174,24 @@ public class Customers {
     public void borrowingBook() throws SQLException {
         System.out.println("Please choose the book to borrow");
         b8k.getAllBooks();
+
+        System.out.println("enter book name");
+
+        bookName=keyboard.next();
+        callS = this.con.prepareCall("Call selectB_name(?)");
+        callS.setString(1,bookName);
+        ResultSet rS = callS.executeQuery();
+        System.out.println("| Book ID | Book Name | BookType | countID | countOfBooks |");
+        while (rS.next()) {
+            idBook = rS.getInt("idBook");
+            bookName=rS.getString("BookName");
+            bookType=rS.getString("BookType");
+            countID=rS.getInt("countID");
+            countOfBooks=rS.getInt("CountOfBooks");
+            System.out.println("| "+idBook+" | "+bookName+" | "+bookType+" | "+countID+" | "+countOfBooks+" |"
+            +'\n'+"book has been borrowed please pick up at counter");
+            ///book count -- for the book just borrowed
+        }
     }
     public  void insertC()throws SQLException{
         System.out.println("enter data in the following way idCustomer,Fname,Lname,cllN,username,password ");

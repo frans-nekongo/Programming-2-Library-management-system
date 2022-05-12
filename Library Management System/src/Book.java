@@ -76,6 +76,7 @@ public class Book {
     public void setCountOfBooks(int countOfBooks) {
         this.countOfBooks = countOfBooks;
     }
+
     // methods
     public void bookCount(){}
     public void getAllBooks() throws SQLException {

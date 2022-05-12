@@ -11,6 +11,7 @@ public class Employee implements Dao {
     Scanner keyboard = new Scanner(System.in);
     Library_System lib = new Library_System();
     Order ord = new Order();
+    Book b8k=new Book();
 
     private CallableStatement callS;
     Connection con =setCon(lib.getConnect());
@@ -103,8 +104,6 @@ public class Employee implements Dao {
             System.out.println(idEmployee + " " + fname + " " + lname + " " + cellN + " " + posE);
         }
     }
-
-
     public void deleteEmployee() throws SQLException {
         getAllEmployee();
         System.out.println("which name would you want to delete enter employee id");
@@ -115,8 +114,6 @@ public class Employee implements Dao {
         System.out.println("delete complete");
         getAllEmployee();
     }
-
-
     public void insertEmployee() throws SQLException {
         getAllEmployee();
         idEmployee = keyboard.nextInt();
@@ -139,8 +136,6 @@ public class Employee implements Dao {
         }
         getAllEmployee();
     }
-
-
     public void updateEmployee() throws SQLException {
         getAllEmployee();
         System.out.println("enter data in the folowing format"
@@ -164,13 +159,9 @@ public class Employee implements Dao {
         }
         getAllEmployee();
     }
-
-    public void ordering() {
-        //name book/np
-        //if book count(book) is zero ,then we need to order
-        //
+    public void ordering() throws SQLException {
+        b8k.updateBook();
     }
-
     public void login()throws SQLException {
         System.out.println("insert username"
         +'\n'+"insert employee master code");
@@ -183,7 +174,6 @@ public class Employee implements Dao {
         }
 
     }
-
     public void borrowFinal() {
     }
 }
