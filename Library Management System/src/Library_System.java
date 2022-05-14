@@ -34,7 +34,7 @@ public class Library_System implements Dao {
         //begin
        try {
            System.out.println("""
-                   welcome customer/employee
+                   welcome customer /employee
                    1.customer
                    2.employee""");
            int answer3 = keyboard.nextInt();
