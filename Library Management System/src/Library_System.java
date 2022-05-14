@@ -1,6 +1,12 @@
 import java.sql.*;
 import java.util.Scanner;
+/*important passwords
+master-code 1001=normal employee,90952=admin
 
+database
+user = "root";
+password = "90952";
+*/
 public class Library_System implements Dao {
     //employee v
     private String fname, lname,posE,cellN;
@@ -20,21 +26,26 @@ public class Library_System implements Dao {
         Employee emp=new Employee();
         Book b8k=new Book();
         Customers cust=new Customers();
+        Newspaper news=new Newspaper();
 
         lib.getConnect();
 
 
         //begin
-        System.out.println("welcome customer/employee"
-                            +'\n'+"1.customer"
-                            +'\n'+"2.employee");
-        int answr3=keyboard.nextInt();
-        switch (answr3){
-            case 1: cust.CustomerStart();
-                break;
-            case 2:emp.login();
-                break;
-        }
+       try {
+           System.out.println("""
+                   welcome customer/employee
+                   1.customer
+                   2.employee""");
+           int answer3 = keyboard.nextInt();
+           switch (answer3) {
+               case 1 -> cust.CustomerStart();
+               case 2 -> emp.login();
+               case 3 ->{}
+           }
+       }catch (Exception e){
+           System.out.println("invalid entry");
+       }
     }
     @Override
     public Connection getConnect() {

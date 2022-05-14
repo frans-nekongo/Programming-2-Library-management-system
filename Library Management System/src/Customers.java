@@ -11,6 +11,7 @@ public class Customers {
     private int rowsAffected;
     //objects
     Book b8k=new Book();
+    Newspaper news=new Newspaper();
     Scanner keyboard = new Scanner(System.in);
     Library_System lib=new Library_System();
     //Customers cust=new Customers();
@@ -57,7 +58,6 @@ public class Customers {
     public void setUsername(String username) {
         this.username = username;
     }
-
     public String getLastName() {
         return lastName;
     }
@@ -157,7 +157,8 @@ public class Customers {
                             +'\n'+"what would you like to do"
                             +'\n'+"1.search for a specific book"
                             +'\n'+"2.browse all available books"
-                            +'\n'+"3.borrow a book");
+                            +'\n'+"3.borrow a book"
+                            +'\n'+"4.search for newspaper");
                     int answr4= keyboard.nextInt();
                     switch (answr4){
                         case 1:b8k.getSpecificBook();
@@ -166,33 +167,31 @@ public class Customers {
                             break;
                         case 3:borrowingBook();
                             break;
+                        case 4:customerGettingNewspapers();
+                            break;
                     }
                 }
         }catch (Exception e){
             System.out.println(e.getMessage());}
     }
-    public void borrowingBook() throws SQLException {
-        System.out.println("Please choose the book to borrow");
-        b8k.getAllBooks();
-
-        System.out.println("enter book name");
-
-        bookName=keyboard.next();
-        callS = this.con.prepareCall("Call selectB_name(?)");
-        callS.setString(1,bookName);
-        ResultSet rS = callS.executeQuery();
-        System.out.println("| Book ID | Book Name | BookType | countID | countOfBooks |");
-        while (rS.next()) {
-            idBook = rS.getInt("idBook");
-            bookName=rS.getString("BookName");
-            bookType=rS.getString("BookType");
-            countID=rS.getInt("countID");
-            countOfBooks=rS.getInt("CountOfBooks");
-            System.out.println("| "+idBook+" | "+bookName+" | "+bookType+" | "+countID+" | "+countOfBooks+" |"
-            +'\n'+"book has been borrowed please pick up at counter");
-            ///book count -- for the book just borrowed
+    public void customerGettingNewspapers() throws SQLException {
+        System.out.println("""
+                           looking for a newspaper by
+                           1.date
+                           2.publisher""");
+        int answr5= keyboard.nextInt();
+        switch (answr5) {
+            case 1 -> news.getNewspaper_date();
+            case 2 -> news.getNewspaper_publisher();
         }
     }
+    public void borrowingBook() throws SQLException {
+        //get from book
+        System.out.println("Please choose the book to borrow");
+        b8k.getAllBooks();
+        b8k.toCustomerBorrowingBook();
+            ///book count -- for the book just borrowed
+        }
     public  void insertC()throws SQLException{
         System.out.println("enter data in the following way idCustomer,Fname,Lname,cllN,username,password ");
         ID = keyboard.nextInt();

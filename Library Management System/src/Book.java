@@ -108,6 +108,30 @@ public class Book {
             System.out.println("| "+idBook+" | "+bookName+" | "+bookType+" | "+countID+" | "+countOfBooks+" |");
         }
     }
+    public void toCustomerBorrowingBook()throws SQLException{
+        System.out.println("enter book name");
+        bookName=keyboard.next();
+        callS = this.con.prepareCall("Call selectB_name(?)");
+        callS.setString(1,bookName);
+        ResultSet rS = callS.executeQuery();
+        System.out.println("| Book ID | Book Name | BookType | countID |");
+        while (rS.next()) {
+            idBook = rS.getInt("idBook");
+            bookName=rS.getString("BookName");
+            bookType=rS.getString("BookType");
+            countID=rS.getInt("countID");
+            countOfBooks=rS.getInt("CountOfBooks");
+            System.out.println("| "+idBook+" | "+bookName+" | "+bookType+" |");
+        }
+        callS = this.con.prepareCall("Call updateB_borw(?)");
+        callS.setInt(1,idBook);
+        rS = callS.executeQuery();
+
+        if (idBook==0){System.out.println("this book is out of stock ..come back later");}else if (idBook>0){
+            System.out.println("book has been borrowed please pick up at counter");
+        }
+    }
+
     public void deleteBook() throws SQLException {
         getAllBooks();
         System.out.println("which book would you want to delete enter book id");
@@ -120,12 +144,13 @@ public class Book {
     }
     public void insertBook_bookCount() throws SQLException {
         getAllBooks();
-        System.out.println("enter data in the folowing format"
-                +'\n'+"book id"
-                +'\n'+"book name"+'\n'
-                +"book type"+'\n'
-                +"count id"+'\n'
-                +"count of books");
+        System.out.println("""
+                enter data in the following format
+                book id
+                book name
+                book type
+                count id
+                count of books""");
         idBook = keyboard.nextInt();
         bookName =keyboard.next();
         bookType = keyboard.next();
@@ -147,9 +172,10 @@ public class Book {
     }
     public void updateBook() throws SQLException {
         getAllBooks();
-        System.out.println("enter data in the folowing format"
-                +'\n'+"book id"
-                +'\n'+"count of books");
+        System.out.println("""
+                enter data in the folowing format
+                book id
+                count of books""");
         int Bid= keyboard.nextInt();
         int Bcount= keyboard.nextInt();
 
@@ -167,12 +193,13 @@ public class Book {
     }
     public void order_newBook() throws SQLException {
         getAllBooks();
-        System.out.println("enter data in the folowing format"
-                +'\n'+"book id"
-                +'\n'+"book name"+'\n'
-                +"book type"+'\n'
-                +"count id"+'\n'
-                +"count of books");
+        System.out.println("""
+                enter data in the following format
+                book id
+                book name
+                book type
+                count id
+                count of books""");
          idBook = keyboard.nextInt();
          bookName =keyboard.next();
          bookType = keyboard.next();

@@ -12,6 +12,7 @@ public class Employee implements Dao {
     Library_System lib = new Library_System();
     Order ord = new Order();
     Book b8k=new Book();
+    Newspaper news=new Newspaper();
 
     private CallableStatement callS;
     Connection con =setCon(lib.getConnect());
@@ -163,14 +164,48 @@ public class Employee implements Dao {
         b8k.updateBook();
     }
     public void login()throws SQLException {
-        System.out.println("insert username"
-        +'\n'+"insert employee master code");
-        int masterCode=1001,
-        answr5= keyboard.nextInt();
+        System.out.println("insert employee master code");
+        int masterCode = keyboard.nextInt();
 
-        if (answr5==masterCode){
-            System.out.println("welcome");
-        }else {System.out.println("wrong code ACCESS DENIED");
+        if (masterCode==1001){
+            System.out.println("""
+                                welcome employee
+                                what do you want to do
+                                     books
+                                1.order book
+                                2.insert book
+                                3.edit book
+                                4.see amount of a specific book
+                                      newspapers
+                                5.add newspaper""");
+             int answer6= keyboard.nextInt();
+             switch (answer6){
+                 case 1:ordering();
+                     break;
+                 case 2:b8k.insertBook_bookCount();
+                     break;
+                 case 3:b8k.updateBook();
+                     break;
+                 case 4:b8k.getSpecificBook();
+                     break;
+                 case 5:news.insertNewspaper();
+                     break;
+             }
+        }
+        else if (masterCode==90952) {
+            System.out.println("""
+                                welcome admin
+                                what do you want to do
+                                     books
+                                1.add employee
+                                2. update employee details""");
+            int answer6= keyboard.nextInt();
+            switch (answer6) {
+                case 1 -> insertEmployee();
+                case 2 -> updateEmployee();
+            }
+        }
+        else {System.out.println("wrong code ACCESS DENIED");
         }
 
     }
