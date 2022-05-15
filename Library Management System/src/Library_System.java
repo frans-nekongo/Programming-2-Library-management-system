@@ -20,6 +20,7 @@ public class Library_System implements Dao {
     Scanner keyboard = new Scanner(System.in);
 
     public static void main(String[] args) throws SQLException {
+        login log = new login();
         Scanner keyboard = new Scanner(System.in);
         Library_System lib = new Library_System();
         Order ord = new Order();
@@ -52,11 +53,11 @@ public class Library_System implements Dao {
 
         String url = "jdbc:mysql://localhost:3306/librarymdb";
         String user = "root";
-        String password = "90952";
+        String password = "vhura";
 
         try {
             con = DriverManager.getConnection(url, user, password);
-            //System.out.println("connection achieved");
+            System.out.println("connection achieved");
         } catch (Exception e) {
             System.out.println("connection not achieved");
         }

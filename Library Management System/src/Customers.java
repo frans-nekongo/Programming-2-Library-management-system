@@ -1,7 +1,8 @@
 
-import com.mysql.cj.x.protobuf.MysqlxCursor;
-
-import java.sql.*;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Customers {
@@ -14,6 +15,7 @@ public class Customers {
     Newspaper news=new Newspaper();
     Scanner keyboard = new Scanner(System.in);
     Library_System lib=new Library_System();
+    Boolean allow = true;
     //Customers cust=new Customers();
 
     //connectoin
@@ -114,6 +116,12 @@ public class Customers {
         this.con = con;
         return con;
     }
+    public Boolean getAllow() {
+        return allow;
+    }
+    public void setAllow(Boolean allow) {
+        this.allow = allow;
+    }
 
     int password = 2001;
     String UserName = "King";
@@ -123,9 +131,9 @@ public class Customers {
         System.out.println("1.login"+'\n'+"2.register");
         int answer=keyboard.nextInt();
         switch (answer){
-            case 1:Login();
+            case 1:Login("S","S");
                 break;
-            case 2:memberRegister();Login();
+            case 2:memberRegister();Login("S","S");
                 break;
 
         }
@@ -134,11 +142,9 @@ public class Customers {
         insertC();
         System.out.println(" account successfully created ");
     }
-    public void Login() throws SQLException {
-        System.out.println("Enter your login details"+'\n'+"username");
-        username= keyboard.next();
-        System.out.println("password");
-        password_C= keyboard.next();
+    public void Login(String name,String pass) throws SQLException {
+        username= name;
+        password_C= pass;
 
         int count = 0;
 
@@ -147,29 +153,11 @@ public class Customers {
             callS.setString(1,username);
             callS.setString(2,password_C);
             ResultSet rS = callS.executeQuery();
-
+            
             while (rS.next()) {
                 ++count;
+                this.allow = rS.next();
                 // Get data from the current row and use it
-                }if (count > 0)
-                {
-                    System.out.println("user logged in"
-                            +'\n'+"what would you like to do"
-                            +'\n'+"1.search for a specific book"
-                            +'\n'+"2.browse all available books"
-                            +'\n'+"3.borrow a book"
-                            +'\n'+"4.search for newspaper");
-                    int answr4= keyboard.nextInt();
-                    switch (answr4){
-                        case 1:b8k.getSpecificBook();
-                            break;
-                        case 2:b8k.getAllBooks();
-                            break;
-                        case 3:borrowingBook();
-                            break;
-                        case 4:customerGettingNewspapers();
-                            break;
-                    }
                 }
         }catch (Exception e){
             System.out.println(e.getMessage());}
