@@ -36,29 +36,13 @@ public class Library_System implements Dao {
 
         lib.getConnect();
 
-
-        //begin
-       try {
-           System.out.println("""
-                   welcome customer /employee
-                   1.customer
-                   2.employee""");
-           int answer3 = keyboard.nextInt();
-           switch (answer3) {
-               case 1 -> cust.CustomerStart();
-               //case 2 -> emp.login();
-               case 3 ->{}
-           }
-       }catch (Exception e){
-           System.out.println("invalid entry");
-       }
     }
     @Override
     public Connection getConnect() {
 
-        String url = "jdbc:mysql://localhost:3306/librarymdb";
+        String url = "jdbc:mysql://localhost:3306/lib_new";
         String user = "root";
-        String password = "vhura";
+        String password = "90952";
 
         try {
             con = DriverManager.getConnection(url, user, password);
