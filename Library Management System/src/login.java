@@ -116,7 +116,7 @@ public class login extends JFrame implements ActionListener{
             if (cust.getAllow()) {
                 this.dispose();
                 Page cPage = new Page(this.name);
-            }else if(pass.compareTo("p@$$w0rol")==0){
+            }else if(pass.compareTo("tenda")==0){
                 this.dispose();
                 whatEmployee wBook = new whatEmployee("enter");
             }else{
