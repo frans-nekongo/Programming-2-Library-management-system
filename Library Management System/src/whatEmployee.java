@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 public class whatEmployee extends JFrame implements ActionListener{
-
+//page for deleteing employee
     JButton pro = new JButton("Proceed");
     Employee emp = new Employee();
     JTextField id = new JTextField();

@@ -17,6 +17,7 @@ import java.sql.*;
 import java.sql.SQLException;
 
 public class login extends JFrame implements ActionListener{
+    //login for all users,chose either to login as guest as well
     JLabel label;
     JTextField textfield1;
     JButton button;

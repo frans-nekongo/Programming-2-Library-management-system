@@ -210,11 +210,11 @@ public Page(String user){
                     itemNP.setVisible(true);
                 } catch (SQLException e1) {
                     e1.printStackTrace();
-                }  
+                }
             }
             
              
-        }
+        }else System.out.println("error");
         if (e.getSource()==bookB) {
             itemNP.setVisible(false);
             itemP.add(item);
@@ -246,8 +246,13 @@ public Page(String user){
         l.setVisible(true);
     }
     public void addLabelNewsP(label l){
+    try {
         itemNP.add(l);
         l.setVisible(true);
+    }catch (Exception e){
+        System.out.println("error file not found");;
+    }
+
     }
 
     @Override

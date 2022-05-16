@@ -76,6 +76,7 @@ public class Newspaper {
     }
 
     //methods
+    //things we can do to newspapers
     public void insertNewspaper(String Date,String pub){
         date =Date;
         npPublisher = pub;
