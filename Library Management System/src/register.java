@@ -124,8 +124,9 @@ public class register implements ActionListener{
         frame.add(tcp);
         frame.add(id);
         frame.add(cp);
-        frame.add(sname);frame.setIconImage(image.getImage());frame.add(blank);
-        fname.add(fname);
+        frame.add(sname);frame.setIconImage(image.getImage());
+        frame.add(blank);
+        frame.add(fname);
            
         
     }
