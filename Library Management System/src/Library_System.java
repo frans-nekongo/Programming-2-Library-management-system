@@ -46,7 +46,6 @@ public class Library_System implements Dao {
 
         try {
             con = DriverManager.getConnection(url, user, password);
-            System.out.println("connection achieved");
         } catch (Exception e) {
             System.out.println("connection not achieved");
         }
