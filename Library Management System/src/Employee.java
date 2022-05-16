@@ -7,6 +7,7 @@ import java.util.Scanner;
 public class Employee implements Dao {
     private String fname, lname, posE, cellN;
     private int idEmployee;
+    private String emplist[] = new String[49];
     //objects
     Scanner keyboard = new Scanner(System.in);
     Library_System lib = new Library_System();
@@ -64,6 +65,9 @@ public class Employee implements Dao {
     public String getCellN() {
         return cellN;
     }
+    public String[] getEmplist() {
+        return emplist;
+    }
 
     //setters
 
@@ -87,6 +91,9 @@ public class Employee implements Dao {
     public void setCellN(String cellN) {
         this.cellN = cellN;
     }
+    public void setEmplist(String[] emplist) {
+        this.emplist = emplist;
+    }
 
     //methods
     public Connection getConnect() {
@@ -96,33 +103,33 @@ public class Employee implements Dao {
     public void getAllEmployee() throws SQLException {
         callS = this.con.prepareCall("Call selectE()");
         ResultSet rS = callS.executeQuery();
+        int count = 0;
         while (rS.next()) {
             fname = rS.getString("firstName");
             idEmployee = rS.getInt("idEmployee");
             lname = rS.getString("lastName");
             cellN = rS.getString("cellphoneN");
             posE = rS.getString("positionE");
-            System.out.println(idEmployee + " " + fname + " " + lname + " " + cellN + " " + posE);
+            System.out.println();
+            String empL= idEmployee + "       |" + fname + "                                                     |" + lname + "                                |" + cellN + "                                 |" + posE;
+            this.emplist[count] = empL;
+            count += 1;
         }
     }
-    public void deleteEmployee() throws SQLException {
-        getAllEmployee();
-        System.out.println("which name would you want to delete enter employee id");
-        int answer = keyboard.nextInt();
+    public void deleteEmployee(int id) throws SQLException {
+        int answer = id;
         callS = this.con.prepareCall("call deleteE(?)");
         callS.setInt(1, answer);
         callS.execute();
-        System.out.println("delete complete");
-        getAllEmployee();
+        message mes = new message("Employee "+id+" has been removed");
+
     }
-    public void insertEmployee() throws SQLException {
-        getAllEmployee();
-        idEmployee = keyboard.nextInt();
-         fname = keyboard.next();
-         lname = keyboard.next();
-         cellN = keyboard.next();
-         posE = keyboard.next();
-        System.out.println("enter data in the following way idEmployee,Fname,Lname,cllN,position ");
+    public void insertEmployee(int id,String firstN,String sname,String cellP,String pos) throws SQLException {
+        idEmployee = id;
+         fname = firstN;
+         lname = sname;
+         cellN = cellP;
+         posE = pos;
         try {
             CallableStatement statmnt = con.prepareCall("{call insertE(?,?,?,?,?)}");
             statmnt.setInt(1, idEmployee);
@@ -163,51 +170,16 @@ public class Employee implements Dao {
     public void ordering() throws SQLException {
         b8k.updateBook();
     }
-    public void login()throws SQLException {
-        System.out.println("insert employee master code");
-        int masterCode = keyboard.nextInt();
+    public void login(int num)throws SQLException {
+    
+        int masterCode = num;
 
         if (masterCode==1001){
-            System.out.println("""
-                                welcome employee
-                                what do you want to do
-                                     books
-                                1.order book
-                                2.insert book
-                                3.edit book
-                                4.see amount of a specific book
-                                      newspapers
-                                5.add newspaper""");
-             int answer6= keyboard.nextInt();
-             switch (answer6){
-                 case 1:ordering();
-                     break;
-                 case 2:b8k.insertBook_bookCount();
-                     break;
-                 case 3:b8k.updateBook();
-                     break;
-                 case 4:b8k.getSpecificBook();
-                     break;
-                 case 5:news.insertNewspaper();
-                     break;
-             }
+            admin admin = new admin();
         }
-        else if (masterCode==90952) {
-            System.out.println("""
-                                welcome admin
-                                what do you want to do
-                                     books
-                                1.add employee
-                                2. update employee details""");
-            int answer6= keyboard.nextInt();
-            switch (answer6) {
-                case 1 -> insertEmployee();
-                case 2 -> updateEmployee();
-            }
+        else {
+            message message = new message("Entered incorrect code");
         }
-        else {System.out.println("wrong code ACCESS DENIED");
-        }
-
     }
     public void borrowFinal() {
     }

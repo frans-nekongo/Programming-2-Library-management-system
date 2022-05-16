@@ -2,6 +2,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -17,25 +19,31 @@ import java.awt.GridLayout;
 public class admin implements  ActionListener{
     JPanel panel = new JPanel();
     JButton back = new JButton("Back");
-    
+    Book Book = new Book();
+    Customers cust = new Customers();
+    Employee emp = new Employee();
+    Newspaper news = new Newspaper();
     JFrame frame = new JFrame();
-    JButton edit = new JButton("Edit");
+    JButton edit = new JButton("Delete");
     JButton add = new JButton("Add");
     JPanel itemB = new JPanel();
     JPanel itemN = new JPanel();
     JPanel itemE = new JPanel();
     JPanel itemU = new JPanel();
+    JPanel itemBo = new JPanel();
     JPanel bar = new JPanel(); 
     Border border1 = BorderFactory.createLineBorder(new Color(0,200,200),2);
     Border wordlineB = BorderFactory.createTitledBorder(border1, "BOOK",0, 0,null, new Color(200,200,200));
     Border wordlineN = BorderFactory.createTitledBorder(border1, "NEWPAPER",0, 0,null, new Color(200,200,200));
     Border wordlineU = BorderFactory.createTitledBorder(border1, "USER",0, 0,null, new Color(200,200,200));
     Border wordlineE = BorderFactory.createTitledBorder(border1, "EMPLOYEE",0, 0,null, new Color(200,200,200));
+    Border wordlineBo = BorderFactory.createTitledBorder(border1, "BORROWED",0, 0,null, new Color(200,200,200));
     JRadioButton bookB = new JRadioButton("Book");
     JRadioButton newsPB = new JRadioButton("Newspaper");
     JRadioButton userB = new JRadioButton("Users");
     JRadioButton empB = new JRadioButton("Employees");
-
+    JRadioButton borB = new JRadioButton("Borrowed");
+    borrowedBook borBook = new borrowedBook();
     public admin (){
         
         ImageIcon image = new ImageIcon("image.jpg");
@@ -47,6 +55,7 @@ public class admin implements  ActionListener{
         group.add(newsPB);
         group.add(userB);
         group.add(empB);
+        group.add(borB);
 
         newsPB.setBounds(196, 75, 90, 20);
         newsPB.setBackground(Color.white);
@@ -67,13 +76,19 @@ public class admin implements  ActionListener{
         empB.setFocusable(false);
         empB.setOpaque(true);
         empB.addActionListener(this);
+        borB.setBounds(295, 75, 87, 20);
+        borB.setBackground(null);
+        borB.setFocusable(false);
+        borB.setOpaque(true);
+        borB.addActionListener(this);
 
+        
 
         JLabel book = new JLabel();
-        book.setText("| ID         | Name                       | Type                    |Number of Books");
+        book.setText("| ID         | Name                                             | Type                                                              |Count ID                               |Number of Books");
         book.setForeground(Color.WHITE);
         JLabel user = new JLabel();
-        user.setText("| ID      | First Name                        | Surname                         | Cellphone number                    | Username");
+        user.setText("| ID      | Username                    | First Name                        | Surname                         | Cellphone number ");
         user.setForeground(Color.WHITE);
         JLabel employee = new JLabel();
         employee.setText("| ID      | First Name                            | Surname                                | Cellphone number                       | Position");
@@ -81,14 +96,24 @@ public class admin implements  ActionListener{
         JLabel newspaper = new JLabel();
         newspaper.setText("| Date                         | Publisher");
         newspaper.setForeground(Color.WHITE);
+        JLabel borrow = new JLabel();
+        borrow.setText("|User                         |ID of book                         |Book Name                         |Book Type");
+        borrow.setForeground(Color.WHITE);
+
+        JLabel line1 = new JLabel();
+        line1.setText("Welcome to the admin page where you can see the details of the Book, Newspapers, User and Employees");
+        line1.setBounds(3, 2, 700, 25);
+        JLabel line2 = new JLabel();
+        line2.setText("Click on the 'add' button to add an item of your choice or click on the delete button to delete an item of your choice when asked for it's ID");
+        line2.setBounds(3, 16, 800, 25);
 
 
-        edit.setBounds(888, 68, 60, 30);
+        edit.setBounds(878, 68, 70, 30);
         edit.setFocusable(false);
         edit.addActionListener(this);
         edit.setBackground(Color.CYAN);
 
-        add.setBounds(888, 38, 60, 30);
+        add.setBounds(878, 38, 70, 30);
         add.setFocusable(false);
         add.addActionListener(this);
         add.setBackground(Color.CYAN);
@@ -117,9 +142,73 @@ public class admin implements  ActionListener{
         itemE.setBorder(wordlineE);
         itemE.setBounds(20, 15, 1000, 800);
         itemE.add(employee);
+        itemBo.setVisible(false);
+        itemBo.setLayout(new GridLayout(50,1,4,4));
+        itemBo.setBackground(null);
+        itemBo.setBorder(wordlineBo);
+        itemBo.setBounds(20, 15, 1000, 800);
+        itemBo.add(borrow);
         
         //item.setBounds(20, 30, 300, 150);
+        // borrowedBook BoBook = Book.getBorrow();
+        // String[] uName = BoBook.getUser();
+        // int[] BooKid =  BoBook.getIds();
+        // String[] Btypes = BoBook.getTypes();
+        // String[] Bname = BoBook.getNames() ;
+        // for (int i = 0; i < uName.length; i++) {
+        //     String borDetails = uName[i]+BooKid[i]+Btypes[i]+Bname[i];
+        //     label BoDetails = new label(borDetails);
+        //     itemBo.add(BoDetails);
+        // }
+        try {
+            Book.getAllBooks();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         
+        String listbook[] = Book.getBooklist();
+        for (int i = 0; i < listbook.length; i++) {
+            String text = listbook[i];
+            label lab = new label(text);
+            itemB.add(lab);
+        }
+        try {
+            cust.getAllCustomer();;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        String listuser[] = cust.getUserlist();
+        for (int i = 0; i < listuser.length; i++) {
+            String details = listuser[i];
+            label label = new label(details);
+            itemU.add(label);
+        }
+
+        try {
+            emp.getAllEmployee();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        String listemp[] = emp.getEmplist();
+        for (int i = 0; i < listemp.length; i++) {
+            String list = listemp[i];
+            label l = new label(list);
+            itemE.add(l);
+        }
+        try {
+            news.getAllNewspapers();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        String listnews[] = news.getNewsList();
+        for (int i = 0; i < listnews.length; i++) {
+            String listN = listnews[i];
+            label labelN = new label(listN);
+            itemN.add(labelN);
+        }
 
         Border border = BorderFactory.createLineBorder(new Color(0,200,200),2);
 
@@ -131,6 +220,7 @@ public class admin implements  ActionListener{
         bar.add(itemN);
         bar.add(itemU);
         bar.add(itemE);
+        bar.add(itemBo);
         bar.setBounds(40, 150, 1100, 800);
         bar.setBorder(blackline);
         bar.setBackground(new Color(0,0,20));
@@ -153,8 +243,11 @@ public class admin implements  ActionListener{
         // panel.add(label3);
         // panel.add(search);
         panel.setLayout(null);
+        panel.add(line1);
+        panel.add(line2);
         panel.add(edit);
         panel.add(add);
+        panel.add(borB);
         panel.add(bookB);
         panel.add(newsPB);
         panel.add(userB);
@@ -192,22 +285,32 @@ public class admin implements  ActionListener{
             itemU.setVisible(false);
             itemE.setVisible(false);
             itemN.setVisible(false);
+            itemBo.setVisible(false);
             itemB.setVisible(true);
         } else if (e.getSource()==newsPB){
             itemU.setVisible(false);
             itemB.setVisible(false);
             itemE.setVisible(false);
+            itemBo.setVisible(false);
             itemN.setVisible(true);
         }else if (e.getSource()==userB) {
             itemN.setVisible(false);
             itemB.setVisible(false);
+            itemBo.setVisible(false);
             itemN.setVisible(false);
             itemU.setVisible(true);
         } else if (e.getSource()==empB){
             itemU.setVisible(false);
             itemB.setVisible(false);
+            itemBo.setVisible(false);
             itemN.setVisible(false);
             itemE.setVisible(true);
+        } else if (e.getSource()==borB){
+            itemU.setVisible(false);
+            itemB.setVisible(false);
+            itemN.setVisible(false);
+            itemE.setVisible(false);
+            itemBo.setVisible(true);
         }
     }
 }

@@ -10,6 +10,10 @@ public class Book {
 //objects
     Scanner keyboard= new Scanner(System.in);
     Library_System lib = new Library_System();
+    label lab;
+    label listLabel;
+    borrowedBook borrow;
+    String booklist[] = new String[49];
 
     private CallableStatement callS;
     Connection con =setCon(lib.getConnect());
@@ -54,6 +58,18 @@ public class Book {
     public int getCountOfBooks() {
         return countOfBooks;
     }
+    public label getLab() {
+        return lab;
+    }
+    public label getListLabel() {
+        return listLabel;
+    }
+    public String[] getBooklist() {
+        return booklist;
+    }
+    public borrowedBook getBorrow() {
+        return borrow;
+    }
 
 // setters
 
@@ -76,71 +92,83 @@ public class Book {
     public void setCountOfBooks(int countOfBooks) {
         this.countOfBooks = countOfBooks;
     }
+    public void setLab(label lab) {
+        this.lab = lab;
+    }
+    public void setListLabel(label listLabel) {
+        this.listLabel = listLabel;
+    }
+    public void setBooklist(String[] booklist) {
+        this.booklist = booklist;
+    }
+    public void setBorrow(borrowedBook borrow) {
+        this.borrow = borrow;
+    }
 
     // methods
     public void bookCount(){}
     public void getAllBooks() throws SQLException {
         callS = this.con.prepareCall("Call selectB()");
         ResultSet rS = callS.executeQuery();
-        System.out.println("| Book ID | Book Name | BookType | countID | countOfBooks |");
+        int count = 0;
         while (rS.next()) {
             idBook = rS.getInt("idBook");
             bookName=rS.getString("BookName");
             bookType=rS.getString("BookType");
             countID=rS.getInt("countID");
             countOfBooks=rS.getInt("CountOfBooks");
-            System.out.println("| "+idBook+" | "+bookName+" | "+bookType+" | "+countID+" | "+countOfBooks+" |");
+            String bookL=  " "+idBook+"          |"+bookName+"                                                |"+bookType+"                                                                    |"+countID+"                                              |"+countOfBooks+" ";
+            this.booklist[count] = bookL;
+            count += 1;
         }
     }
-    public void getSpecificBook()throws SQLException{
-        System.out.println("enter book name");
-        bookName=keyboard.next();
+    public void getSpecificBook(String name)throws SQLException{
+        bookName=name;
         callS = this.con.prepareCall("Call selectB_name(?)");
         callS.setString(1,bookName);
         ResultSet rS = callS.executeQuery();
-        System.out.println("| Book ID | Book Name | BookType | countID | countOfBooks |");
         while (rS.next()) {
             idBook = rS.getInt("idBook");
             bookName=rS.getString("BookName");
             bookType=rS.getString("BookType");
             countID=rS.getInt("countID");
             countOfBooks=rS.getInt("CountOfBooks");
-            System.out.println("| "+idBook+" | "+bookName+" | "+bookType+" | "+countID+" | "+countOfBooks+" |");
+            String book = Integer.toString(idBook)+"           |"+bookName+"                                     |"+bookType+"                                              |"+countOfBooks;
+            lab = new label(book);
+            lab.setVisible(true);
+            
         }
     }
-    public void toCustomerBorrowingBook()throws SQLException{
-        System.out.println("enter book name");
-        bookName=keyboard.next();
+    public void toCustomerBorrowingBook(String name,String user)throws SQLException{
+        bookName=name;
         callS = this.con.prepareCall("Call selectB_name(?)");
         callS.setString(1,bookName);
         ResultSet rS = callS.executeQuery();
-        System.out.println("| Book ID | Book Name | BookType | countID |");
         while (rS.next()) {
             idBook = rS.getInt("idBook");
             bookName=rS.getString("BookName");
             bookType=rS.getString("BookType");
             countID=rS.getInt("countID");
             countOfBooks=rS.getInt("CountOfBooks");
-            System.out.println("| "+idBook+" | "+bookName+" | "+bookType+" |");
+            borrow = new borrowedBook(user,bookName, idBook, bookType);
         }
         callS = this.con.prepareCall("Call updateB_borw(?)");
         callS.setInt(1,idBook);
         rS = callS.executeQuery();
 
-        if (idBook==0){System.out.println("this book is out of stock ..come back later");}else if (idBook>0){
-            System.out.println("book has been borrowed please pick up at counter");
+        if (countOfBooks==0){
+            message mes =new message("this book is out of stock ..come back later");
+        }else if (countOfBooks>0){
+            message mess =new message("book has been borrowed please pick up at counter");
         }
     }
 
-    public void deleteBook() throws SQLException {
-        getAllBooks();
-        System.out.println("which book would you want to delete enter book id");
-        int answer = keyboard.nextInt();
+    public void deleteBook(int id) throws SQLException {
+        int answer = id;
         callS = this.con.prepareCall("call deleteB(?)");
         callS.setInt(1, answer);
         callS.execute();
-        System.out.println("delete complete");
-        getAllBooks();
+        message mes = new message("Book "+id+" has been deleted");
     }
     public void insertBook_bookCount() throws SQLException {
         getAllBooks();
@@ -171,7 +199,6 @@ public class Book {
         getAllBooks();
     }
     public void updateBook() throws SQLException {
-        getAllBooks();
         System.out.println("""
                 enter data in the folowing format
                 book id
@@ -191,20 +218,12 @@ public class Book {
         }
         getAllBooks();
     }
-    public void order_newBook() throws SQLException {
-        getAllBooks();
-        System.out.println("""
-                enter data in the following format
-                book id
-                book name
-                book type
-                count id
-                count of books""");
-         idBook = keyboard.nextInt();
-         bookName =keyboard.next();
-         bookType = keyboard.next();
-         countID = keyboard.nextInt();
-         countOfBooks = keyboard.nextInt();
+    public void order_newBook(int id,String name,String type,int coID,int count) throws SQLException {
+         idBook = id;
+         bookName =name;
+         bookType = type;
+         countID = coID;
+         countOfBooks = count;
         try {
             CallableStatement statmnt = con.prepareCall("{call insertB(?,?,?,?,?)}");
             statmnt.setInt(1,idBook);
@@ -217,6 +236,5 @@ public class Book {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        getAllBooks();
     }
 }

@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.*;
+import java.sql.SQLException;
 import java.awt.GridLayout;
 import javax.swing.*;
 import java.awt.GridLayout;
@@ -17,27 +18,29 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
-public class Page implements ActionListener,KeyListener{
+public class Page implements ActionListener{
     JFrame frame = new JFrame();
-    String books[] = {"Name","Genre","Author","ID"};
-    String newsP[] = {"Publisher","Date"};
-    JComboBox b ;
-    JComboBox n ;
     JButton search;
     Character name;
+    String username = "";
     JButton back = new JButton("back");
     JTextField bar = new JTextField();
     JRadioButton bookB = new JRadioButton("Book");
     JRadioButton newsPB = new JRadioButton("Newspaper");
+    JButton borrow = new JButton("Borrow a Book");
     JPanel panel = new JPanel();
+    Boolean choice = false;
     JPanel itemP;
     JPanel item ;
     JPanel itemNP ;
+    Book book = new Book();
+    String pub = "";
+    Newspaper newsP = new Newspaper();
 
-public Page(){
+public Page(String user){
        
        Border border = BorderFactory.createLineBorder(new Color(0,200,200),2);
-
+        this.username = user;
         JLabel label = new JLabel();
         JLabel label1 = new JLabel();
         JLabel label2 = new JLabel();
@@ -48,6 +51,11 @@ public Page(){
         ButtonGroup group = new ButtonGroup();
         group.add(bookB);
         group.add(newsPB);
+
+        borrow.setBounds(830, 1, 120, 25);
+        borrow.setFocusable(false);
+        borrow.addActionListener(this);
+        borrow.setBackground(Color.CYAN);
         
 
         bookB.setBounds(83, 45, 55, 20);
@@ -64,19 +72,23 @@ public Page(){
         bar.setFont(new Font("Consolas",Font.PLAIN,15));
         bar.setPreferredSize(new Dimension(50,50));
 
-        label.setText("Welcome Username to Library System");
-        label.setBounds(5, 10, 300, 20);
+        JLabel label4 = new JLabel();
+        label.setText("Welcome "+user+" to Library System");
+        label.setBounds(5, 5, 300, 20);
         label1.setText("You can search for a book or a newpaper to be able to interact with them");
-        label1.setBounds(5, 23, 600, 20);
+        label1.setBounds(5, 15, 900, 20);
         label2.setText("Search for:");
         label2.setBounds(5, 45, 300, 20);
         label3.setText("Search bar:");
         label3.setBounds(5, 70, 100, 20);
+        label4.setText("click on 'Borrow a book' to enter the book you want to borrow");
+        label4.setBounds(5, 30, 500, 20);
         
         label.setFont(new Font("Consolas",Font.PLAIN,12));
         label1.setFont(new Font("Consolas",Font.PLAIN,12));
         label2.setFont(new Font("Consolas",Font.PLAIN,12));
         label3.setFont(new Font("Consolas",Font.PLAIN,12));
+        label4.setFont(new Font("Consolas",Font.PLAIN,12));
 
         //label.setBounds(200, 65, 300,50 ); 
         search = new JButton("Search");
@@ -95,6 +107,7 @@ public Page(){
         panel.add(label1);
         panel.add(label2);
         panel.add(label3);
+        panel.add(label4);
         panel.add(search);
         panel.setLayout(null);
 
@@ -114,15 +127,6 @@ public Page(){
         back.setBounds(2, 1, 70, 30);
         back.setFocusable(false);
         back.addActionListener(this);
-
-        b = new JComboBox(books);
-        n = new JComboBox(newsP);
-        b.setBorder(null);
-        n.setBorder(null);
-        b.setBackground(null);
-        n.setBackground(null);
-        b.setBounds(250, 45, 80, 20);
-        n.setBounds(250, 45, 80, 20);
 
         item = new JPanel();
         itemNP = new JPanel();
@@ -157,9 +161,8 @@ public Page(){
 
         panel.add(bookB);
         panel.add(newsPB);
+        panel.add(borrow);
 
-        
-        bar.addKeyListener(this);
         frame.setLocation(400, 100);
         frame.add(panel);
         frame.add(itemP);
@@ -175,6 +178,11 @@ public Page(){
         frame.add(bar);
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==back){
             frame.dispose();
@@ -184,21 +192,45 @@ public Page(){
         if(e.getSource()==search){
             itemP.add(item);
             item.setVisible(true);
+            String name = bar.getText();
+            if (this.choice) {
+                try {
+                    book.getSpecificBook(name);
+                    this.addLabelBook(book.getLab());
+                 item.setVisible(false);
+                    item.setVisible(true);
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            } else {  
+                try { 
+                    newsP.getNewspaper_publisher(name);
+                    this.addLabelNewsP(newsP.getLabel());
+                    itemNP.setVisible(false);
+                    itemNP.setVisible(true);
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }  
+            }
+            
+             
         }
         if (e.getSource()==bookB) {
-            n.setVisible(false);
-            b.setVisible(true);
             itemNP.setVisible(false);
-            panel.add(b);
             itemP.add(item);
             item.setVisible(true);
+            this.choice = true;
         } else if (e.getSource()==newsPB){
-            b.setVisible(false);
-            n.setVisible(true);
-            panel.add(n);
+            pub = bar.getText();
             item.setVisible(false);
             itemP.add(itemNP);
             itemNP.setVisible(true);
+            this.choice = false;
+        }
+        if(e.getSource()==borrow){
+            frame.dispose();
+            whatBook wBook= new whatBook("borrow",this.username);
+            
         }
     }
 
@@ -208,25 +240,19 @@ public Page(){
     public Character getName() {
         return name;
     }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-        /*if (e.getKeyChar()== 'j') {
-            bookPanel bookp = new bookPanel();
-            itemP.add(bookp);
-        }*/
-        
+    
+    public void addLabelBook(label l){
+        item.add(l);
+        l.setVisible(true);
+    }
+    public void addLabelNewsP(label l){
+        itemNP.add(l);
+        l.setVisible(true);
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-       
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode()== KeyEvent.VK_ENTER) {
-            itemP.add(item);
-        }
+    public String toString() {
+        return this.username;
     }
 }
+

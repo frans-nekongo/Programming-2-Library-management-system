@@ -9,24 +9,24 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 public class editItem extends JFrame implements ActionListener{
-    JButton book = new JButton("edit Book");
-    JButton newspaper = new JButton("edit Newspaper");
-    JButton employee = new JButton("edit employee");
+    JButton book = new JButton("Delete a Book");
+    //JButton newspaper = new JButton("Newspaper");
+    JButton employee = new JButton("Delete an employee");
 
     public editItem (){
         Border border = BorderFactory.createLineBorder(new Color(0,200,200),2);
 
-        book.setBounds(5,50 , 150, 40);
+        book.setBounds(50,50 , 150, 40);
         book.setFocusable(false);
         book.setBackground(Color.CYAN);
         book.addActionListener(this);
 
-        newspaper.setBounds(155,50 , 150, 40);
-        newspaper.setFocusable(false);
-        newspaper.setBackground(Color.CYAN);
-        newspaper.addActionListener(this);
+        // newspaper.setBounds(155,50 , 150, 40);
+        // newspaper.setFocusable(false);
+        // newspaper.setBackground(Color.CYAN);
+        // newspaper.addActionListener(this);
 
-        employee.setBounds(305,50 , 150, 40);
+        employee.setBounds(205,50 , 150, 40);
         employee.setFocusable(false);
         employee.setBackground(Color.CYAN);
         employee.addActionListener(this);
@@ -50,22 +50,18 @@ public class editItem extends JFrame implements ActionListener{
         this.add(panel);
         this.add(book);
         this.add(employee);
-        this.add(newspaper);
+        
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==book){
             this.dispose();
-            whatBook wBook= new whatBook();
-        }
-        if(e.getSource()==newspaper){
-            this.dispose();
-            whatNewspaper wBook= new whatNewspaper();
+            whatBook wBook= new whatBook("delete","");
         }
         if(e.getSource()==employee){
             this.dispose();
-            whatEmployee wBook= new whatEmployee();
+            whatEmployee wBook= new whatEmployee("detele");
         }
     }
 }

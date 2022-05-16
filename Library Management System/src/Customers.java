@@ -10,12 +10,13 @@ public class Customers {
     private String firstName,lastName,username,password_C, cellphoneNumber;
     private int ID;
     private int rowsAffected;
+    private String userlist[] = new String[49];
     //objects
     Book b8k=new Book();
     Newspaper news=new Newspaper();
     Scanner keyboard = new Scanner(System.in);
     Library_System lib=new Library_System();
-    Boolean allow = true;
+    Boolean allow = false;
     //Customers cust=new Customers();
 
     //connectoin
@@ -71,6 +72,9 @@ public class Customers {
     public int getID() {
         return ID;
     }
+    public String[] getUserlist() {
+        return userlist;
+    }
 
     public void setID(int ID) {
         this.ID = ID;
@@ -122,6 +126,9 @@ public class Customers {
     public void setAllow(Boolean allow) {
         this.allow = allow;
     }
+    public void setUserlist(String[] userlist) {
+        this.userlist = userlist;
+    }
 
     int password = 2001;
     String UserName = "King";
@@ -133,14 +140,10 @@ public class Customers {
         switch (answer){
             case 1:Login("S","S");
                 break;
-            case 2:memberRegister();Login("S","S");
+            case 2:Login("S","S");
                 break;
 
         }
-    }
-    public void memberRegister() throws SQLException {
-        insertC();
-        System.out.println(" account successfully created ");
     }
     public void Login(String name,String pass) throws SQLException {
         username= name;
@@ -153,14 +156,16 @@ public class Customers {
             callS.setString(1,username);
             callS.setString(2,password_C);
             ResultSet rS = callS.executeQuery();
-            
+
             while (rS.next()) {
                 ++count;
-                this.allow = rS.next();
-                // Get data from the current row and use it
+                }if (count > 0)
+                {
+                    this.allow = true;
                 }
         }catch (Exception e){
-            System.out.println(e.getMessage());}
+            message message = new message(e.getMessage());
+        }
     }
     public void customerGettingNewspapers() throws SQLException {
         System.out.println("""
@@ -170,24 +175,16 @@ public class Customers {
         int answr5= keyboard.nextInt();
         switch (answr5) {
             case 1 -> news.getNewspaper_date();
-            case 2 -> news.getNewspaper_publisher();
+            //case 2 -> news.getNewspaper_publisher();
         }
     }
-    public void borrowingBook() throws SQLException {
-        //get from book
-        System.out.println("Please choose the book to borrow");
-        b8k.getAllBooks();
-        b8k.toCustomerBorrowingBook();
-            ///book count -- for the book just borrowed
-        }
-    public  void insertC()throws SQLException{
-        System.out.println("enter data in the following way idCustomer,Fname,Lname,cllN,username,password ");
-        ID = keyboard.nextInt();
-        firstName = keyboard.next();
-        lastName = keyboard.next();
-        cellphoneNumber = keyboard.next();
-        UserName =keyboard.next();
-        password_C= keyboard.next();
+    public  void insertC(int id,String fname,String lname,String cellP,String user,String pass)throws SQLException{
+        ID = id;
+        firstName = fname;
+        lastName = lname;
+        cellphoneNumber = cellP;
+        UserName =user;
+        password_C= pass;
         try {
             CallableStatement statmnt = con.prepareCall("{call insertC(?,?,?,?,?,?)}");
             statmnt.setInt(1, ID);
@@ -205,14 +202,16 @@ public class Customers {
     public  void getAllCustomer() throws SQLException {
         callS = this.con.prepareCall("Call selectC()");
         ResultSet rS = callS.executeQuery();
-        System.out.println("| ID | Username |  full name  | cell | ");
+        int count = 0;
         while (rS.next()) {
             firstName = rS.getString("firstName");
             ID = rS.getInt("idcustomer");
             lastName = rS.getString("lastName");
             cellphoneNumber = rS.getString("cellphoneNumber");
             username = rS.getString("username");
-            System.out.println("  "+ID + "    " +username + "      " + firstName + " " + lastName + "   " + cellphoneNumber);
+            String userL="  "+ID + "          " +username + "                             " + firstName + "                                         " + lastName + "                                           " + cellphoneNumber;
+            this.userlist[count] = userL;
+            count += 1;
         }
     }
     public  void deleteC()throws SQLException{
@@ -222,6 +221,7 @@ public class Customers {
         callS.setInt(1, answer);
         callS.execute();
         System.out.println("delete complete");}
+
     public  void updateC()throws SQLException{
         System.out.println("what do you want to update"
                 +'\n'+"1.username"

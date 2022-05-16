@@ -13,6 +13,7 @@ public class addItem extends JFrame implements ActionListener{
     JButton newspaper = new JButton("Add Newspaper");
     JButton employee = new JButton("Add employee");
 
+
     public addItem (){
         Border border = BorderFactory.createLineBorder(new Color(0,200,200),2);
 
@@ -25,10 +26,12 @@ public class addItem extends JFrame implements ActionListener{
         newspaper.setBounds(155,50 , 150, 40);
         newspaper.setFocusable(false);
         newspaper.setBackground(Color.CYAN);
+        newspaper.addActionListener(this);
 
         employee.setBounds(305,50 , 150, 40);
         employee.setFocusable(false);
         employee.setBackground(Color.CYAN);
+        employee.addActionListener(this);
 
         JLabel label = new JLabel();
         label.setText("Choose what you want to add to the system by clicking the button");
@@ -56,7 +59,15 @@ public class addItem extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()==book) {
             this.dispose();
-            whatBook wBook = new whatBook();
+            orderBook book = new orderBook();
+        }
+        if (e.getSource()==newspaper) {
+            this.dispose();
+            addNewspaper addN = new addNewspaper();
+        }
+        if (e.getSource()==employee) {
+            this.dispose();
+            addEmployee addE = new addEmployee();
         }
     }
 }

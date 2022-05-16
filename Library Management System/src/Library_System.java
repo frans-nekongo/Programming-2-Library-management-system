@@ -1,5 +1,10 @@
 import java.sql.*;
 import java.util.Scanner;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.sql.Statement;
 /*important passwords
 master-code 1001=normal employee,90952=admin
 
@@ -41,7 +46,7 @@ public class Library_System implements Dao {
            int answer3 = keyboard.nextInt();
            switch (answer3) {
                case 1 -> cust.CustomerStart();
-               case 2 -> emp.login();
+               //case 2 -> emp.login();
                case 3 ->{}
            }
        }catch (Exception e){

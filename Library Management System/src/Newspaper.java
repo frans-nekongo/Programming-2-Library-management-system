@@ -8,9 +8,11 @@ import java.util.Scanner;
 public class Newspaper {
     private String date,npPublisher;
     private int npCount;
+    private String newsList[] = new String[49];
     //objects
     Library_System lib=new Library_System();
     Scanner keyboard=new Scanner(System.in);
+    label label;
     //connection
     private CallableStatement callS;
     Connection con =setCon(lib.getConnect());
@@ -47,6 +49,12 @@ public class Newspaper {
     public int getNpCount() {
         return npCount;
     }
+    public label getLabel() {
+        return label;
+    }
+    public String[] getNewsList() {
+        return newsList;
+    }
     //setters
 
     public void setDate(String date) {
@@ -60,16 +68,17 @@ public class Newspaper {
     public void setNpCount(int npCount) {
         this.npCount = npCount;
     }
+    public void setLabel(label label) {
+        this.label = label;
+    }
+    public void setNewsList(String[] newsList) {
+        this.newsList = newsList;
+    }
 
     //methods
-    public void insertNewspaper(){
-        System.out.println("""
-                enter data in the following format
-                date yyyy-mm-dd
-                publisher publisher name(no spaces)
-                """);
-        date =keyboard.next();
-        npPublisher = keyboard.next();
+    public void insertNewspaper(String Date,String pub){
+        date =Date;
+        npPublisher = pub;
         try {
             CallableStatement statmnt = con.prepareCall("{call insertN(?,?)}");
             statmnt.setString(1,date);
@@ -94,18 +103,33 @@ public class Newspaper {
                 System.out.println("| "+date+" |     "+npPublisher+" | ");
         }
     }
-    public void getNewspaper_publisher() throws SQLException {
-        System.out.println("enter publisher name");
-        npPublisher = keyboard.next();
+    
+    public void getNewspaper_publisher(String pub) throws SQLException {
+        npPublisher = pub;
 
         callS = this.con.prepareCall("Call selectN_publisher(?)");
         callS.setString(1, npPublisher);
         ResultSet rS = callS.executeQuery();
-        System.out.println("| Date |  publisher |");
         while (rS.next()) {
             date = rS.getString("Date");
             npPublisher = rS.getString("publisher");
-            System.out.println("| " + date + " |     " + npPublisher + " | ");
+            String newsP = date+"                                           "+npPublisher;
+            this.label = new label(newsP);
+            this.label.setVisible(true);
+        }
+    }
+
+    public void getAllNewspapers() throws SQLException {
+        callS = this.con.prepareCall("Call selectN()");
+        ResultSet rS = callS.executeQuery();
+        int count = 0;
+        while (rS.next()) {
+            date = rS.getString("Date");
+            npPublisher = rS.getString("publisher");
+            System.out.println();
+            String newsL= date+"                   "+npPublisher;
+            this.newsList[count] = newsL;
+            count += 1;
         }
     }
 }

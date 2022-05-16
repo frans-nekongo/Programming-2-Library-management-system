@@ -91,28 +91,48 @@ public class login extends JFrame implements ActionListener{
         
         
     }
+    public String getName() {
+        
+        return super.getName();
+    }
+    @Override
+    public void setName(String name) {
+        super.setName(name);
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==button){
-            this.dispose();
+            
+            try {
+            
             this.name = textfield1.getText();
             String pass = "";
             char[] passC = textfield2.getPassword();
             for (int index = 0; index < passC.length; index++) {
                 pass = pass + Character.toString(passC[index]);
             } 
+            cust.Login(name, pass);
             if (cust.getAllow()) {
-                 Page cPage = new Page();
+                this.dispose();
+                Page cPage = new Page(this.name);
+            }else if(pass.compareTo("p@$$w0rol")==0){
+                whatEmployee wBook = new whatEmployee("enter");
             }else{
-                 admin ad = new admin();
+                message mess = new message("Entered incorrect information");
             }
+            
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            
         }else if (e.getSource()==button2) {
             this.dispose();
             register reg = new register();
         }else if (e.getSource()==button3) {
+            this.name = textfield1.getText();
             this.dispose();
-            Page cPage = new Page();
+            Page cPage = new Page(this.name);
         }
         
     }

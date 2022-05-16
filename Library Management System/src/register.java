@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -15,7 +16,13 @@ public class register implements ActionListener{
     JPanel panel = new JPanel();
     JButton signup;
     JButton back;
-
+    Customers cust = new Customers();
+    JTextField tid = new JTextField();
+    JTextField tcp = new JTextField();
+    JTextField tsname = new JTextField();
+    JTextField tname = new JTextField();
+    JTextField uName = new JTextField();
+    JTextField  tpass= new JTextField();
     public register(){
         frame = new JFrame();
         signup = new JButton("Finished");
@@ -31,17 +38,17 @@ public class register implements ActionListener{
         ImageIcon image = new ImageIcon("image.jpg"); 
         Border border = BorderFactory.createLineBorder(new Color(0,200,200),2);
 
-        JTextField tname = new JTextField();
+        
         tname.setBounds(100,80 , 200, 25);
-        JTextField tsname = new JTextField();
+        
+        
         tsname.setBounds(100, 120, 200, 25);
-        JTextField tid = new JTextField();
         tid.setBounds(100,160 , 200, 25);
-        JTextField tcp = new JTextField();
+        
         tcp.setBounds(100,200 , 200, 25);
-        JTextField uName = new JTextField();
+        
         uName.setBounds(100,240 , 200, 25);
-        JTextField  tpass= new JTextField();
+       
         tpass.setBounds(100,280 , 200, 25);
 
         JLabel blank = new JLabel();
@@ -126,7 +133,18 @@ public class register implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==signup){
             frame.dispose();
-            Page cPage = new Page();
+            int id =  Integer.parseInt(tid.getText());
+            String fname = tname.getText();
+            String lname = tsname.getText();
+            String cellP = tcp.getText();
+            String user= uName.getText();
+            String pass = tpass.getText();
+            try {
+                cust.insertC(id, fname, lname, cellP, user, pass);
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            message mes = new message("You have successfully created an account");
         }
         if(e.getSource()==back){
             frame.dispose();
