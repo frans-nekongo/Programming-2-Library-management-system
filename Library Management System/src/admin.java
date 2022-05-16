@@ -212,13 +212,13 @@ public class admin implements  ActionListener{
             label labelN = new label(listN);
             itemN.add(labelN);
         }
-
+        // border colour and thickness for panels
         Border border = BorderFactory.createLineBorder(new Color(0,200,200),2);
 
        
         Border blackline = BorderFactory.createTitledBorder(border1, "BAR",0, 0,null, new Color(0,200,200));
 
-        
+        //the panel that displays the
         bar.add(itemB);
         bar.add(itemN);
         bar.add(itemU);
