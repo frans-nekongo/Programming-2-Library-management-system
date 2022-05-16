@@ -164,7 +164,7 @@ public class Customers {
                     this.allow = true;
                 }
         }catch (Exception e){
-            message message = new message(e.getMessage());
+            message message = new message("You have entered non-matching information");
         }
     }
     public void customerGettingNewspapers() throws SQLException {
