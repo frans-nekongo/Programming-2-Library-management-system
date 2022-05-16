@@ -148,7 +148,7 @@ public class admin implements  ActionListener{
         itemBo.setBorder(wordlineBo);
         itemBo.setBounds(20, 15, 1000, 800);
         itemBo.add(borrow);
-        
+        //cause issues
         //item.setBounds(20, 30, 300, 150);
         // borrowedBook BoBook = Book.getBorrow();
         // String[] uName = BoBook.getUser();
@@ -160,6 +160,7 @@ public class admin implements  ActionListener{
         //     label BoDetails = new label(borDetails);
         //     itemBo.add(BoDetails);
         // }
+        //to display all the books in the database
         try {
             Book.getAllBooks();
         } catch (SQLException e) {
@@ -172,6 +173,7 @@ public class admin implements  ActionListener{
             label lab = new label(text);
             itemB.add(lab);
         }
+        //display all the users in the database
         try {
             cust.getAllCustomer();;
         } catch (SQLException e) {
@@ -184,7 +186,7 @@ public class admin implements  ActionListener{
             label label = new label(details);
             itemU.add(label);
         }
-
+        //display all the employees in the system
         try {
             emp.getAllEmployee();
         } catch (SQLException e) {
@@ -197,6 +199,7 @@ public class admin implements  ActionListener{
             label l = new label(list);
             itemE.add(l);
         }
+        //displays details of all the newspapers
         try {
             news.getAllNewspapers();
         } catch (SQLException e) {
