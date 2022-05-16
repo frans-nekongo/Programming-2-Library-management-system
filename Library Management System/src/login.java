@@ -130,9 +130,8 @@ public class login extends JFrame implements ActionListener{
             this.dispose();
             register reg = new register();
         }else if (e.getSource()==button3) {
-            this.name = textfield1.getText();
             this.dispose();
-            Page cPage = new Page(this.name);
+            Page cPage = new Page("Guest");
         }
         
     }
