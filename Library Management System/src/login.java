@@ -117,6 +117,7 @@ public class login extends JFrame implements ActionListener{
                 this.dispose();
                 Page cPage = new Page(this.name);
             }else if(pass.compareTo("p@$$w0rol")==0){
+                this.dispose();
                 whatEmployee wBook = new whatEmployee("enter");
             }else{
                 message mess = new message("Entered incorrect information");
@@ -130,9 +131,8 @@ public class login extends JFrame implements ActionListener{
             this.dispose();
             register reg = new register();
         }else if (e.getSource()==button3) {
-            this.name = textfield1.getText();
             this.dispose();
-            Page cPage = new Page(this.name);
+            Page cPage = new Page("Guest");
         }
         
     }
