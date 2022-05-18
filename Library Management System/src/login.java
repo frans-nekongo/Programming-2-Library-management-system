@@ -104,7 +104,7 @@ public class login extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==button){
-            
+            ///setting in variables for the LOGIN method
             try {
             
             this.name = textfield1.getText();

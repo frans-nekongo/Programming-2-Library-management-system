@@ -11,6 +11,7 @@ public class Customers {
     private int ID;
     private int rowsAffected;
     private String userlist[] = new String[49];
+
     //objects
     Book b8k=new Book();
     Newspaper news=new Newspaper();
@@ -115,14 +116,7 @@ public class Customers {
     }
 
     //Method for customer actions that can perform
-    public void CustomerStart() throws SQLException {
-        System.out.println("1.login"+'\n'+"2.register");
-        int answer=keyboard.nextInt();
-        switch (answer) {
-            case 1 -> Login("S", "S");
-            case 2 -> Login("S", "S");
-        }
-    }
+
     public void Login(String name,String pass) throws SQLException {
         username= name;
         password_C= pass;
