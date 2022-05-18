@@ -250,7 +250,7 @@ public Page(String user){
         itemNP.add(l);
         l.setVisible(true);
     }catch (Exception e){
-        System.out.println("error file not found");;
+        System.out.println("");
     }
 
     }

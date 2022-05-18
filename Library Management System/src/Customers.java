@@ -88,22 +88,6 @@ public class Customers {
         this.cellphoneNumber = cellphoneNumber;
     }
 
-    public int getPassword() {
-        return password;
-    }
-
-    public void setPassword(int password) {
-        this.password = password;
-    }
-
-    public String getUserName() {
-        return UserName;
-    }
-
-    public void setUserName(String userName) {
-        UserName = userName;
-    }
-
     public String getPassword_C() {
         return password_C;
     }
@@ -130,19 +114,13 @@ public class Customers {
         this.userlist = userlist;
     }
 
-    int password = 2001;
-    String UserName = "King";
-
     //Method for customer actions that can perform
     public void CustomerStart() throws SQLException {
         System.out.println("1.login"+'\n'+"2.register");
         int answer=keyboard.nextInt();
-        switch (answer){
-            case 1:Login("S","S");
-                break;
-            case 2:Login("S","S");
-                break;
-
+        switch (answer) {
+            case 1 -> Login("S", "S");
+            case 2 -> Login("S", "S");
         }
     }
     public void Login(String name,String pass) throws SQLException {
@@ -167,23 +145,12 @@ public class Customers {
             message message = new message("You have entered non-matching information");
         }
     }
-    public void customerGettingNewspapers() throws SQLException {
-        System.out.println("""
-                           looking for a newspaper by
-                           1.date
-                           2.publisher""");
-        int answr5= keyboard.nextInt();
-        switch (answr5) {
-            case 1 -> news.getNewspaper_date();
-            //case 2 -> news.getNewspaper_publisher();
-        }
-    }
     public  void insertC(int id,String fname,String lname,String cellP,String user,String pass)throws SQLException{
         ID = id;
         firstName = fname;
         lastName = lname;
         cellphoneNumber = cellP;
-        UserName =user;
+        username =user;
         password_C= pass;
         try {
             CallableStatement statmnt = con.prepareCall("{call insertC(?,?,?,?,?,?)}");
@@ -191,7 +158,7 @@ public class Customers {
             statmnt.setString(2, firstName);
             statmnt.setString(3, lastName);
             statmnt.setString(4, cellphoneNumber);
-            statmnt.setString(5, UserName);
+            statmnt.setString(5, username);
             statmnt.setString(6,password_C);
             ResultSet rs = statmnt.executeQuery();
             System.out.println("Your data has been inserted into LBMS.");
